@@ -2,33 +2,46 @@ package com.atguigu.springbootstart.controller;
 
 import com.atguigu.springbootstart.bean.Customer;
 import com.atguigu.springbootstart.service.CustomerService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class CustomerController {
 
+    String table = "customer";
+
     @Autowired
     CustomerService customerService;
 
-    @RequestMapping("customer")
-    public String getCustomerByName(@RequestParam("name") String na){
-        System.out.println("Customer name:" + na);
+
+    @RequestMapping("customerList")
+    public List<Customer> getCustomerList(String table) {
+        return customerService.getCustomerList(table);
+    }
+
+    @RequestMapping("customerById/{id}")
+    public Customer getCustomerById(@PathVariable("id") String id){
+        return customerService.getCustomerById(table, id);
+    }
+
+    @PostMapping("/insertCustomer")
+    public String saveCustomer(@RequestBody Customer customer){
+        customerService.saveCustomer(table,customer);
         return "success";
     }
 
-
-    @RequestMapping("customerById/{id}")
-    public String getCustomerById(@PathVariable("id") String id){
-//        System.out.println("Customer Id:" + id);
-        return customerService.getCustomerById(id);
+    @RequestMapping("updateCustomer/{field},{field_value},{id}")
+    public String updateCustomer(@Param("field") String field,@Param("field_value") String field_value,@Param("id") String id){
+        customerService.updateCustomer(table,field,field_value,id);
+        return "success";
     }
-
-    @PostMapping("/customer")
-    public String saveCustomer(@RequestBody Customer customer){
-//        System.out.println("customer:" + customer);
-        customerService.saveCustomer(customer);
-        return "save customer:"+customer.toString();
+    @RequestMapping("deleteCustomer/{id}")
+    public String deleteCustomer(@Param("id") String id){
+        customerService.deleteCustomerById(table,id);
+        return "success";
     }
 
 }
