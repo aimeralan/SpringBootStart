@@ -17,29 +17,35 @@ public class CustomerController {
     CustomerService customerService;
 
 
-    @RequestMapping("customerList")
-    public List<Customer> getCustomerList(String table) {
-        return customerService.getCustomerList(table);
+    //测试ok
+    @RequestMapping("/customerList")
+    public String getCustomerList() {
+        return customerService.getCustomerList(table).toString();
     }
 
+    //测试ok
     @RequestMapping("customerById/{id}")
     public Customer getCustomerById(@PathVariable("id") String id){
         return customerService.getCustomerById(table, id);
     }
 
+    //测试ok
     @PostMapping("/insertCustomer")
     public String saveCustomer(@RequestBody Customer customer){
         customerService.saveCustomer(table,customer);
         return "success";
     }
 
-    @RequestMapping("updateCustomer/{field},{field_value},{id}")
-    public String updateCustomer(@Param("field") String field,@Param("field_value") String field_value,@Param("id") String id){
+    //测试ok
+    @RequestMapping("updateCustomer/{field}/{field_value}/{id}")
+    public String updateCustomer(@PathVariable("field") String field,@PathVariable("field_value") String field_value,@PathVariable("id") String id){
         customerService.updateCustomer(table,field,field_value,id);
         return "success";
     }
+
+    //测试ok
     @RequestMapping("deleteCustomer/{id}")
-    public String deleteCustomer(@Param("id") String id){
+    public String deleteCustomer(@PathVariable("id") String id){
         customerService.deleteCustomerById(table,id);
         return "success";
     }

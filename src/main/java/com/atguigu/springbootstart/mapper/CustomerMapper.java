@@ -16,11 +16,10 @@ public interface CustomerMapper {
     @Insert("insert into ${table}(name,age) values(#{customer.name},#{customer.age})")
     public void insertCustomer(@Param("table") String table, @Param("customer") Customer customer);
 
-
     @Update("update ${table} set ${field}=#{field_value} where id=#{id}")
     public void updateCustomer(@Param("table") String table,@Param("field") String field, @Param("field_value") String field_value, @Param("id") String id);
 
-    @Delete("delete form ${table} where id=#{id}")
+    @Delete("delete from ${table} where id=#{id}")
     public void deleteCustomerById(@Param("table") String table,@Param("id") String id);
 
 }
